@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"9e6aff4aeebed905","type":"text","text":"","x":-121,"y":-128,"width":250,"height":60},
+		{"id":"bbb5745b6a847da5","type":"text","text":"[[C 语言]]循环结构与格式化输出","x":-160,"y":-320,"width":250,"height":60},
+		{"id":"0935795bfe2ee843","type":"text","text":"![[Pasted image 20260709085801.png]] ","x":-760,"y":-200,"width":1185,"height":310},
+		{"id":"ded4b6ae6fe505a4","type":"text","text":"![[Pasted image 20260709085908.png]]","x":715,"y":-200,"width":905,"height":275},
+		{"id":"b0fed89ca229ce1d","type":"text","text":"# 观察与思考\n首先肯定是循环的,他分为几个部分:\n- 行\n- 列\n- 空格\n- 字符(这个不用去说)\n就以图中给的 5 * 为案例:\n\n| 列 l | 空格数k | 字符c |\n| --- | ---- | --- |\n| 0   | 0    | 5   |\n| 1   | 1    | 3   |\n| 2   | 2    | 1   |\n| 3   | 1    | 3   |\n| 4   | 0    | 5   |\n列的话 12345 可以直接循环加,空格符主要看中间那行 mid = N / 2 \n对于空格:\n~~~\n在中间之前 k = l;\n在中间之后 k = N - l - 1;\n~~~\n对于字符 c:\n~~~\n c = N - 2k;\n~~~\n这是属于先打印空格再去打印字符, 所以不能是嵌套","x":760,"y":120,"width":900,"height":425},
+		{"id":"0a002bc61c82b6a6","type":"text","text":"~~~ c\n#include <stdio.h>\n\nint main(void) {\n\tunsigned int N; // N  表示奇数\n\tchar C;\n\n\tscanf_s(\"%u %c\", &N, &C);\n\n\tif ((N % 2 == 0) && N > 39) {\n\t\tprintf(\"the number is mistake\\n\");\n\t}\n\t\n\tunsigned int mid = N / 2;\n\n\tfor (unsigned int index = 0; index <= mid; index++) {\n\t\tfor (unsigned int k = 0; k < index; k++) {\n\t\t\tprintf(\" \");\n\t\t}\n\t\tfor (unsigned int c = 0; c < N - 2 * index; c++) {\n\t\t\tprintf(\"%c\", C);\n\t\t}\n\n\t\tprintf(\"\\n\");\n\t}\n\n\tfor (unsigned int index = N - mid; index <= N - 1; index++) {\n\t\tfor (unsigned int k = 0; k < N - index - 1; k++) {\n\t\t\tprintf(\" \");\n\t\t}\n\t\tfor (unsigned int c = 0; c < N - 2*(N - index - 1); c++) {\n\t\t\tprintf(\"%c\", C);\n\t\t}\n\n\t\tprintf(\"\\n\");\n\t}\n\n\t\treturn 0;\n}\n~~~","x":420,"y":601,"width":1280,"height":999},
+		{"id":"881cb3fa9083e3fd","type":"text","text":"# 燃尽了\n## 就是先观察,找到规律,然后想想怎么实现,通过观察,我们得知要输入空格与字符,我很容易想到循环嵌套,但是如果我再一个循环里嵌套了空格与字符,就会发现一个会乱，不嵌套反而简单点，但是存在一个问题就是中间之后要对称，其实就是按照规律将他用 C 语言的形式表示出来","x":-700,"y":601,"width":910,"height":279}
+	],
+	"edges":[
+		{"id":"75354f9b0cda5c09","fromNode":"bbb5745b6a847da5","fromSide":"bottom","toNode":"0935795bfe2ee843","toSide":"top"},
+		{"id":"e2992fbffc8efb44","fromNode":"0935795bfe2ee843","fromSide":"right","toNode":"ded4b6ae6fe505a4","toSide":"left"},
+		{"id":"6722800b46710d0d","fromNode":"b0fed89ca229ce1d","fromSide":"bottom","toNode":"0a002bc61c82b6a6","toSide":"top"},
+		{"id":"294d19aed688dd67","fromNode":"881cb3fa9083e3fd","fromSide":"right","toNode":"0a002bc61c82b6a6","toSide":"left"}
+	]
+}

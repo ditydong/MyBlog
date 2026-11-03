@@ -1,0 +1,21 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# MkDocs build output
+site/
+
+# Obsidian vault config & sync cache
+.obsidian/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local secrets / env
+.env
+.env.*

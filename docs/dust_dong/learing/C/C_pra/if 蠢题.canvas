@@ -1,0 +1,19 @@
+{
+	"nodes":[
+		{"id":"bab465ac8d6e3694","type":"text","text":"![[Pasted image 20260708140456.png]]\n","x":-125,"y":-30,"width":605,"height":250},
+		{"id":"e0884d0de0cbb572","type":"text","text":"==VIP 可以去 A== ,金币大于 5 可以去 D ，大于 20 可以去 C\n有==特殊道具可以去 B==，有 5 块金币可以去 D\n金币有 5 必须结合 VIP 或者道具\n==金币有 10 可以去B== \n金币有 20 加上 VIP 可以去 C","x":-95,"y":260,"width":545,"height":160,"color":"2"},
+		{"id":"f07236dad3bafd54","type":"text","text":"我的思路，先从D入手，因为主要在的一个分支就是 VIP 和 道具，但 D 有 ||，如果不先处理感觉很麻烦，如果直接将 D 的 || 用 if 包装的话，可以在里面嵌套来判断其他选项","x":-87,"y":480,"width":530,"height":82},
+		{"id":"1cc5a5b62d49a96d","type":"text","text":"这个直接一个一个房间检查就行了\n先判断房间 A 的条件，不满足就else原因\n然后用下一个 if 来判断 B 房间\n我为什么没往这么想：\n我往else方向发展了，导致只判断一个之后就结束了","x":600,"y":480,"width":480,"height":180,"color":"1"},
+		{"id":"1773cb48052cd707","type":"text","text":"~~~ c\n#include <stdio.h>\n#include <stdbool.h>\n#include <inttypes.h>\n\nint main(void) {\n\tbool is_vip = false;\n\tbool spea_tool = true;\n\tint money;\n\n\tprintf(\"input your number:\\n\");\n\tscanf_s(\"%d\", &money);\n\n\tif (is_vip || spea_tool) {\n\t\tif (money >= 5) {\n\t\t\tprintf(\"D\\n\");\n\t\t}\n\t\tif (!spea_tool) {\n\t\t\tprintf(\"A\\n\");\n\t\t\tif (money >= 10) {\n\t\t\t\tprintf(\"B\\n\");\n\t\t\t}\n\t\t\tif (money >= 20) {\n\t\t\t\tprintf(\"C\\n\");\n\t\t\t}\n\t\t}\n\t\tif (!is_vip) {\n\t\t\tprintf(\"B\\n\");\n\t\t}\n\t}\n}\n~~~","x":-520,"y":640,"width":727,"height":740},
+		{"id":"301ec359ce198741","type":"text","text":"~~~ c\n// 先判断房间A \nif(is_vip){\n\tputs(\"可以进房间A\\n\");\n\t}else{\n\tputs(\"不能进A，因为A需要VIP\");\n    }\n}\n\n// 判断B 房间的状态\nif(money >= 10 || spea_tool){\n\tputs(\"可以进入B\");\n\t}else{\n\t\tputs(\"不能进入B，因为B需要10个金币或者道具\");\n\t}\n//  其他的同理，简单\n~~~","x":443,"y":760,"width":657,"height":400},
+		{"id":"f39a2e0021d869cc","type":"text","text":"[[C 语言]]**if练习**","x":124,"y":-140,"width":107,"height":50}
+	],
+	"edges":[
+		{"id":"91a024b05a0b7279","fromNode":"f39a2e0021d869cc","fromSide":"bottom","toNode":"bab465ac8d6e3694","toSide":"top"},
+		{"id":"8056bde1dfb73033","fromNode":"bab465ac8d6e3694","fromSide":"bottom","toNode":"e0884d0de0cbb572","toSide":"top"},
+		{"id":"8f95633ec021ef12","fromNode":"e0884d0de0cbb572","fromSide":"bottom","toNode":"f07236dad3bafd54","toSide":"top"},
+		{"id":"f411cc91a4033b25","fromNode":"f07236dad3bafd54","fromSide":"bottom","toNode":"1773cb48052cd707","toSide":"top"},
+		{"id":"07aabd841ab99456","fromNode":"f07236dad3bafd54","fromSide":"right","toNode":"1cc5a5b62d49a96d","toSide":"left"},
+		{"id":"e77941cfe719b157","fromNode":"1cc5a5b62d49a96d","fromSide":"bottom","toNode":"301ec359ce198741","toSide":"top"}
+	]
+}

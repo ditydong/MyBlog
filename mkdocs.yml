@@ -1,0 +1,30 @@
+site_name: 暗影大人的知识库
+site_description: 学习、技术与项目记录
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - awesome-pages
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+
+site_dir: site
+docs_dir: docs
+
+use_directory_urls: true
