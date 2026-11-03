@@ -1,5 +1,6 @@
 site_name: 暗影大人的知识库
 site_description: 学习、技术与项目记录
+site_url: https://ditydong.github.io/MyBlog/
 
 theme:
   name: material
