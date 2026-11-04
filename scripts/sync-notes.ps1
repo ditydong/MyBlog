@@ -1,24 +1,24 @@
+
 $ErrorActionPreference = "Stop"
 
-# 原始 Obsidian 知识库
+# 1. Directory configuration
 $Vault = "D:\magic_tool_2\ob_load\dust_dong"
-
-# MkDocs 发布目录
 $Docs = "D:\MyBlog\docs"
 
-# 排除的目录名称
+# 2. Excluded directories
+# Unicode character codes are used to avoid Chinese encoding issues.
 $ExcludeDirs = @(
     ".obsidian",
     ".trash",
     ".git",
-    "私人",
-    "私密",
-    "日记",
-    "草稿",
-    "临时"
+    (([char]0x79C1).ToString() + [char]0x4EBA),
+    (([char]0x79C1).ToString() + [char]0x5BC6),
+    (([char]0x65E5).ToString() + [char]0x8BB0),
+    (([char]0x8349).ToString() + [char]0x7A3F),
+    (([char]0x4E34).ToString() + [char]0x65F6)
 )
 
-# 初始允许复制的文件类型
+# 3. Allowed file extensions
 $AllowedExtensions = @(
     ".md",
     ".png",
@@ -30,52 +30,74 @@ $AllowedExtensions = @(
     ".pdf"
 )
 
-# 检查路径
-if (!(Test-Path $Vault)) {
-    throw "找不到 Obsidian 知识库"
+# 4. Check source directory
+if (-not (Test-Path -LiteralPath $Vault -PathType Container)) {
+    throw "Source directory does not exist."
 }
 
-if (!(Test-Path $Docs)) {
-    New-Item -ItemType Directory -Path $Docs | Out-Null
+# 5. Create destination if necessary
+if (-not (Test-Path -LiteralPath $Docs)) {
+    New-Item -ItemType Directory -Path $Docs -Force | Out-Null
 }
 
-# 遍历原始知识库
+# 6. Read source files
 $Files = Get-ChildItem -LiteralPath $Vault -Recurse -File -Force
+
+$CopiedCount = 0
+$SkippedCount = 0
 
 foreach ($File in $Files) {
 
-    # 获取相对路径
+    # Get relative path
     $RelativePath = $File.FullName.Substring(
         $Vault.TrimEnd('\').Length
     ).TrimStart('\')
 
     $Segments = $RelativePath -split '[\\/]'
 
-    # 排除隐藏目录和私人目录
-    if ($Segments | Where-Object {
-        $_.StartsWith(".") -or
-        $ExcludeDirs -contains $_
-    }) {
+    # Check excluded directories and hidden files
+    $ShouldExclude = $false
+
+    foreach ($Segment in $Segments) {
+        if (
+            $Segment.StartsWith(".") -or
+            ($ExcludeDirs -contains $Segment)
+        ) {
+            $ShouldExclude = $true
+            break
+        }
+    }
+
+    if ($ShouldExclude) {
+        $SkippedCount++
         continue
     }
 
-    # 只复制允许的文件类型
-    if ($AllowedExtensions -notcontains $File.Extension.ToLower()) {
+    # Check file extension
+    if ($AllowedExtensions -notcontains $File.Extension.ToLowerInvariant()) {
+        $SkippedCount++
         continue
     }
 
-    # 创建目标目录
+    # Build destination path
     $Target = Join-Path $Docs $RelativePath
     $TargetDir = Split-Path $Target -Parent
 
-    if (!(Test-Path $TargetDir)) {
+    # Create destination directory
+    if (-not (Test-Path -LiteralPath $TargetDir)) {
         New-Item -ItemType Directory -Path $TargetDir -Force |
             Out-Null
     }
 
-    # 只复制，不移动、不删除原文件
+    # Copy only. Never modify source files.
     Copy-Item -LiteralPath $File.FullName `
         -Destination $Target -Force
+
+    $CopiedCount++
 }
 
-Write-Host " notee copy right! " -ForegroundColor Green
+# 7. Display result
+Write-Host 'Notes copied successfully.' -ForegroundColor Green
+Write-Host "Copied files: $CopiedCount"
+Write-Host "Skipped files: $SkippedCount"
+
