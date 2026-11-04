@@ -78,4 +78,4 @@ foreach ($File in $Files) {
         -Destination $Target -Force
 }
 
-Write-Host " not copy right! " -ForegroundColor Green
+Write-Host " notee copy right! " -ForegroundColor Green
