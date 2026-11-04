@@ -1,4 +1,3 @@
-
 $ErrorActionPreference = "Stop"
 
 # 原始 Obsidian 知识库
