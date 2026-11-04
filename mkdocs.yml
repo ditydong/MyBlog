@@ -10,9 +10,13 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
     - search.suggest
     - search.highlight
     - content.code.copy
+    - header.autohide
 
 plugins:
   - search
@@ -24,6 +28,12 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight
+  - pymdownx.mark
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ditydong/MyBlog.git
 
 site_dir: site
 docs_dir: docs
