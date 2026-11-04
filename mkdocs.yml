@@ -21,16 +21,18 @@ theme:
   language: zh
   features:
     - navigation.instant
+    - navigation.indexes
     - navigation.sections
     - navigation.expand
     - navigation.top
     - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.path
     - search.suggest
     - search.highlight
     - content.code.copy
     - header.autohide
+    - toc.follow
+    - toc.integrate
 
 plugins:
   - search
