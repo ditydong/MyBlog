@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 
 # 1. Directory configuration
 $Vault = "D:\magic_tool_2\ob_load\dust_dong"
-$Docs = "D:\MyBlog\docs"
+$Docs = "D:\MyBlog\docs\dust_dong"
 
 # 2. Excluded directories
 # Unicode character codes are used to avoid Chinese encoding issues.
