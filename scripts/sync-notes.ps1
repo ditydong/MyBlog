@@ -78,4 +78,4 @@ foreach ($File in $Files) {
         -Destination $Target -Force
 }
 
-Write-Host "笔记复制完成！" -ForegroundColor Green
+Write-Host " not copy right! " -ForegroundColor Green
