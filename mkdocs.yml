@@ -1,4 +1,4 @@
-site_name: 暗影大人的知识库
+site_name: dust_dong的个人博客
 site_description: 学习、技术与项目记录
 site_url: https://ditydong.github.io/MyBlog/
 
@@ -17,7 +17,7 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-        
+
   language: zh
   features:
     - navigation.instant
