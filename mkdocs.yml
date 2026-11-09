@@ -53,6 +53,11 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/ditydong/MyBlog.git
 
+# 公式渲染：先用 mathjax.js 设配置，再加载 MathJax 本体（顺序不能反）
+extra_javascript:
+  - javascripts/mathjax.js
+  - javascripts/mathjax/tex-svg.js
+
 site_dir: site
 docs_dir: docs
 
