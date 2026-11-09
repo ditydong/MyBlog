@@ -45,6 +45,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight
   - pymdownx.mark
+  - pymdownx.arithmatex:
+      generic: true
 
 extra:
   social:
