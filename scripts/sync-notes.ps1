@@ -45,6 +45,7 @@ $Files = Get-ChildItem -LiteralPath $Vault -Recurse -File -Force
 
 $CopiedCount = 0
 $SkippedCount = 0
+$SourceSet = @{}
 
 foreach ($File in $Files) {
 
@@ -52,6 +53,10 @@ foreach ($File in $Files) {
     $RelativePath = $File.FullName.Substring(
         $Vault.TrimEnd('\').Length
     ).TrimStart('\')
+
+    # Remember every source file, including ones that are not copied,
+    # so that stale-file cleanup below never deletes a legitimate copy.
+    $SourceSet[$RelativePath.ToLowerInvariant()] = $true
 
     $Segments = $RelativePath -split '[\\/]'
 
@@ -96,8 +101,71 @@ foreach ($File in $Files) {
     $CopiedCount++
 }
 
-# 7. Display result
+# 7. Remove files that no longer exist in the vault.
+# Without this, renaming or moving a note leaves the old copy behind,
+# which is how duplicate pages end up on the site.
+$StaleCount = 0
+$TargetFiles = Get-ChildItem -LiteralPath $Docs -Recurse -File -Force
+
+foreach ($TargetFile in $TargetFiles) {
+
+    $RelativePath = $TargetFile.FullName.Substring(
+        $Docs.TrimEnd('\').Length
+    ).TrimStart('\')
+
+    $Segments = $RelativePath -split '[\\/]'
+
+    # Never touch excluded directories or hidden files
+    $ShouldExclude = $false
+
+    foreach ($Segment in $Segments) {
+        if (
+            $Segment.StartsWith(".") -or
+            ($ExcludeDirs -contains $Segment)
+        ) {
+            $ShouldExclude = $true
+            break
+        }
+    }
+
+    if ($ShouldExclude) {
+        continue
+    }
+
+    # Only consider files this script is responsible for copying
+    if (
+        $AllowedExtensions -notcontains
+        $TargetFile.Extension.ToLowerInvariant()
+    ) {
+        continue
+    }
+
+    if (-not $SourceSet.ContainsKey($RelativePath.ToLowerInvariant())) {
+        Remove-Item -LiteralPath $TargetFile.FullName -Force
+        $StaleCount++
+    }
+}
+
+# 8. Remove empty directories left behind by step 7
+for ($Pass = 0; $Pass -lt 3; $Pass++) {
+    $EmptyDirs = Get-ChildItem -LiteralPath $Docs -Recurse -Directory -Force |
+        Where-Object {
+            (Get-ChildItem -LiteralPath $_.FullName -Recurse -File -Force |
+                Measure-Object).Count -eq 0
+        } |
+        Sort-Object { $_.FullName.Length } -Descending
+
+    if ($EmptyDirs.Count -eq 0) {
+        break
+    }
+
+    foreach ($Dir in $EmptyDirs) {
+        Remove-Item -LiteralPath $Dir.FullName -Force -Recurse
+    }
+}
+
+# 9. Display result
 Write-Host 'Notes copied successfully.' -ForegroundColor Green
 Write-Host "Copied files: $CopiedCount"
 Write-Host "Skipped files: $SkippedCount"
-
+Write-Host "Stale files removed: $StaleCount"
