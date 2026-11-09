@@ -38,6 +38,10 @@ plugins:
   - search
   - awesome-pages
 
+# 把 Obsidian 画布渲染成页面，见 hooks/canvas.py
+hooks:
+  - hooks/canvas.py
+
 markdown_extensions:
   - admonition
   - attr_list

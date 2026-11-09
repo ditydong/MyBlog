@@ -27,7 +27,8 @@ $AllowedExtensions = @(
     ".gif",
     ".svg",
     ".webp",
-    ".pdf"
+    ".pdf",
+    ".canvas"
 )
 
 # 4. Check source directory
