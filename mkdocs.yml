@@ -38,10 +38,6 @@ plugins:
   - search
   - awesome-pages
 
-# 把 Obsidian 画布渲染成页面，见 hooks/canvas.py
-hooks:
-  - hooks/canvas.py
-
 markdown_extensions:
   - admonition
   - attr_list
@@ -49,6 +45,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight
   - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.arithmatex:
       generic: true
 
@@ -56,11 +53,6 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/ditydong/MyBlog.git
-
-# 公式渲染：先用 mathjax.js 设配置，再加载 MathJax 本体（顺序不能反）
-extra_javascript:
-  - javascripts/mathjax.js
-  - javascripts/mathjax/tex-svg.js
 
 site_dir: site
 docs_dir: docs
